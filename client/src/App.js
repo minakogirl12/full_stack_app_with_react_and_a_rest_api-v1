@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import {Component} from 'react';
+
+//import components
+import Header from './components/Header'
+
+
+class App extends Component{
+//load initial data for testing
+constructor(){
+  super();
+  this.state ={
+    data: [],
+  }
+}
+componentDidMount(){
+  this.getData();
+}
+
+ getData(){
+    fetch('http://localhost:5000/api/courses')
+    .then(response => response.json()
+    .then(data => {
+      console.log(data);
+      this.setState({data});
+    }));
+    
+  }
+
+  render ()
+  {
+    return (
+      <div>
+        <Header />
+        <ul>
+          {
+            this.state.data.map(photo => <li key={photo.id}>{photo.title}</li>)
+          }
+        </ul>
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,0 +1,1 @@
+//Signs out authenticated user an redirects the user to the default route

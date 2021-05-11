@@ -16,7 +16,7 @@ const app = express();
 app.use(cors());
 
 // Setup request body JSON parsing
-app.use(express.json());
+app.use(express.json( ));
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));

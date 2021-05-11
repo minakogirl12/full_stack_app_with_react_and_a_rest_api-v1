@@ -1,0 +1,1 @@
+// renders a form that allows a user to update one of their existing courses
