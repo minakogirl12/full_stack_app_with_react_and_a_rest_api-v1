@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
-import Data from '../Data';
 
 
 export default class Courses extends Component{
 
+    state = {
+        courses: {}
+    }
+
     render(){
-        const data = new Data();
-        console.log(data);
-        console.log(this.props.context);
+        
+        this.courses();
+
         return(
             <div className="wrap main--grid">
                 <a className="course--module course--link" href="course-detail.html">
@@ -31,5 +34,14 @@ export default class Courses extends Component{
                 </a>
             </div>
         )
+    }
+
+    courses = () => {
+        // use the prop to get the courses
+        this.props.context.data.getCourses()
+        .then((data) => {
+            console.log(data);
+            
+        })
     }
 }
