@@ -1,3 +1,5 @@
+import config from './config'
+
 //class to manage access to the API
 
 export default class Data{
@@ -11,7 +13,7 @@ export default class Data{
      * @returns JSON response from the API
      */
     api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
-        const url = 'http://localhost:5000/api' + path;
+        const url = config.apiBaseUrl + path;
       
         const options = {
           method,
@@ -133,9 +135,47 @@ export default class Data{
         }
     }
 
-    async updateCourse(){}
+    /**
+     * 
+     * @param {*} course 
+     * @returns empty array on successful update of course
+     */
+    async updateCourse(course, username, password){
+        //PUT route requires authentication
+        const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {username, password});
+        if (response.status === 201) {
+            return [];
+        }
+        else if (response.status === 400) {
+            return response.json().then(data => {
+                return data.errors;
+                });
+        }
+        else {
+            throw new Error();
+        }
+    }
 
-    async deleteCourse(){}
-
+    /**
+     * 
+     * @param {*} courseId 
+     * @returns empty array on successful deletion
+     */
+    async deleteCourse(courseId, username, password){
+         //PUT route requires authentication
+         const response = await this.api(`/courses/${courseId}`, 'DELETE', null, true, {username, password});
+         if (response.status === 201) {
+             return [];
+         }
+         else if (response.status === 400) {
+             return response.json().then(data => {
+                 return data.errors;
+                 });
+         }
+         else {
+             throw new Error();
+         }
+    }
+    
 
 }

@@ -1,44 +1,34 @@
 
 import './App.css';
-import {Component} from 'react';
+import React, {Component} from 'react';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
 
 //import components
 import Header from './components/Header'
+import Courses from './components/Courses'
+
+//imports
+import withContext from './Context';
+
 
 
 class App extends Component{
-//load initial data for testing
-constructor(){
-  super();
-  this.state ={
-    data: [],
-  }
-}
-componentDidMount(){
-  this.getData();
-}
-
- getData(){
-    fetch('http://localhost:5000/api/courses')
-    .then(response => response.json()
-    .then(data => {
-      console.log(data);
-      this.setState({data});
-    }));
-    
-  }
 
   render ()
   {
+    const CoursesWithContext = withContext(Courses);
+    console.log();
     return (
-      <div>
-        <Header />
-        <ul>
-          {
-            this.state.data.map(photo => <li key={photo.id}>{photo.title}</li>)
-          }
-        </ul>
-      </div>
+      <BrowserRouter>
+        <div>
+          <Header />
+          
+        
+        <Switch>
+          <Route path='/index.html' component={CoursesWithContext} />
+        </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }

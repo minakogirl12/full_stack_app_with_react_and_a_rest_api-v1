@@ -1,8 +1,13 @@
-import React, {Componenet} from 'react';
+import React, {Component} from 'react';
+import Data from '../Data';
 
-export default class Courses extends Componenet{
+
+export default class Courses extends Component{
 
     render(){
+        const data = new Data();
+        console.log(data);
+        console.log(this.props.context);
         return(
             <div className="wrap main--grid">
                 <a className="course--module course--link" href="course-detail.html">
