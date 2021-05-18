@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 export default class Courses extends Component{
 
     state = {
-        courses: {}
+        courses: []
     }
 
     render(){
@@ -13,18 +13,14 @@ export default class Courses extends Component{
 
         return(
             <div className="wrap main--grid">
-                <a className="course--module course--link" href="course-detail.html">
-                    <h2 className="course--label">Course</h2>
-                    <h3 className="course--title">Build a Basic Bookcase</h3>
-                </a>
-                <a className="course--module course--link" href="course-detail.html">
-                    <h2 className="course--label">Course</h2>
-                    <h3 className="course--title">Learn How to Program</h3>
-                </a>
-                <a className="course--module course--link" href="course-detail.html">
-                    <h2 className="course--label">Course</h2>
-                    <h3 className="course--title">Learn How to Test Programs</h3>
-                </a>
+                {this.state.courses.map(course => {
+                    return (
+                        <a className="course--module course--link" key={course.id} href={`courses/${course.id}`}>
+                            <h2 className="course--label">Course</h2>
+                            <h3 className="course--title">{course.title}</h3>
+                        </a>  
+                    )
+                })}
                 <a className="course--module course--add--module" href="create-course.html">
                     <span className="course--add--title">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -40,8 +36,12 @@ export default class Courses extends Component{
         // use the prop to get the courses
         this.props.context.data.getCourses()
         .then((data) => {
-            console.log(data);
-            
+            this.setState({courses: data})  
         })
+        .catch(err =>
+            {
+                console.log(err);
+            }
+            );
     }
 }

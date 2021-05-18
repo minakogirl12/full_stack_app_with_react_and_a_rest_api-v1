@@ -6,17 +6,19 @@ import { BrowserRouter, Route, Switch} from 'react-router-dom';
 //import components
 import Header from './components/Header'
 import Courses from './components/Courses'
+import CourseDetail from './components/CourseDetail'
 
 //imports
 import withContext from './Context';
 
-
+const CoursesWithContext = withContext(Courses);
+const CourseDetailWithContext = withContext(CourseDetail)
 
 class App extends Component{
 
   render ()
   {
-    const CoursesWithContext = withContext(Courses);
+   
     console.log();
     return (
       <BrowserRouter>
@@ -25,7 +27,8 @@ class App extends Component{
           
         
         <Switch>
-          <Route path='/index.html' component={CoursesWithContext} />
+          <Route path='/index' component={CoursesWithContext} />
+          <Route path='/courses/:id' component={CourseDetailWithContext} />
         </Switch>
         </div>
       </BrowserRouter>
