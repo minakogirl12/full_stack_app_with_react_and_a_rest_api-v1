@@ -6,10 +6,12 @@ export default class Courses extends Component{
     state = {
         courses: []
     }
+    
+    componentDidMount(){
+        this.courses();
+    }
 
     render(){
-        
-        this.courses();
 
         return(
             <div className="wrap main--grid">

@@ -3,9 +3,21 @@ import React, {Component} from 'react';
 /**
  * Component that displays a single course
  */
+import Data from '../Data';
 
 export default class CourseDetail extends Component{
+    state = {
+        course: []
+    }
+    componentDidMount(){
+         //this.course();
+       const data = new Data();
+       data.getCourse(3)
+       .then(data => console.log(data))
+       .catch(err => console.log(err));
+    }
     render(){
+
         return(
             <div className="wrap">
             <h2>Course Detail</h2>
@@ -29,11 +41,11 @@ export default class CourseDetail extends Component{
                         <p>The specifications that follow will produce a bookcase with overall dimensions of 10 3/4 in. deep x 34 in. wide x 48 in. tall. While the depth of the case is directly tied to the 1 x 10 stock, you can vary the height, width and shelf spacing to suit your needs. Keep in mind, though, that extending the width of the cabinet may require the addition of central shelf supports.</p>
                     </div>
                     <div>
-                        <h3 class="course--detail--title">Estimated Time</h3>
+                        <h3 className="course--detail--title">Estimated Time</h3>
                         <p>14 hours</p>
 
-                        <h3 class="course--detail--title">Materials Needed</h3>
-                        <ul class="course--detail--list">
+                        <h3 className="course--detail--title">Materials Needed</h3>
+                        <ul className="course--detail--list">
                             <li>1/2 x 3/4 inch parting strip</li>
                             <li>1 x 2 common pine</li>
                             <li>1 x 4 common pine</li>
@@ -50,5 +62,19 @@ export default class CourseDetail extends Component{
             </form>
         </div>
         );
+    }
+
+    course = () => {
+        // use the prop to get the courses
+        this.props.context.data.getCourse(3)
+        .then((data) => {
+            this.setState({course: data});
+            console.log(data);        
+        })
+        .catch(err =>
+            {
+                console.log(err);
+            }
+            );
     }
 }
