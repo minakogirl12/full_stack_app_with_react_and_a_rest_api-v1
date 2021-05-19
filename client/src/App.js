@@ -32,11 +32,12 @@ class App extends Component{
           
         
         <Switch>
-          <Route path='/index' component={CoursesWithContext} />
+          <Route exact path='/' component={CoursesWithContext} />
           <Route path='/courses/:id' component={CourseDetailWithContext} />
           <Route path='/notfound' component={NotFound} />
           <Route path='/forbidden' component={Forbidden} />
           <Route path='/error' component={UnhandledError} />
+          <Route component={NotFound} />
         </Switch>
         </div>
       </BrowserRouter>
