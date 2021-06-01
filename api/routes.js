@@ -28,42 +28,24 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
 router.post('/users', asyncHandler( async(req, res) => {
      // Get the user from the request body.
         const user = req.body;
-    //TODO: Check for can remove below and use a try catch block instead
-  const errors = [];
-  if(!user.firstName)//checks that  the name property exists and that it is not undefined, null, or empty
-  {
-    errors.push('Please provide a value for "firstName"'); //adds name error message
-  }
-  if(!user.lastName)//checks that  the name property exists and that it is not undefined, null, or empty
-  {
-    errors.push('Please provide a value for "lastName"'); //adds name error message
-  }
-  
-  if(!user.emailAddress)//checks that email property exists and it is not empty
-  {
-    errors.push('Please add a value for "email"');
-  }
-  
-  if(!user.password)//checks for password value
-  {
-    errors.push('Please provide a value for "password"');
-  }
-  else if(user.password.length < 8 || user.password.length > 20){
-    errors.push("Your password must be between 8 and 20 characters");
-  }
-  
-  //if there are any errors
-  if(errors.length > 0){
-    //return errors to clients
-    res.status(400).json({errors});
-  }
-  else{
-    //console.log(user); 
-    // Add the user to the database
-     await User.create(user);
-    // Set the status to 201 Created and end the response.
-    res.status(201).location('/').end();
-  }
+
+    try{
+      //console.log(user); 
+      // Add the user to the database
+       await User.create(user);
+      // Set the status to 201 Created and end the response.
+       res.status(201).location('/').end();
+    }
+    catch(error){
+      console.log(error);
+      if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError'){
+        const errors = error.errors.map(err => err.message);
+        res.status(400).json({ errors });   
+      }
+      else{
+        throw error;
+      }
+    }
 
 }));
 

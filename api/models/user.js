@@ -1,12 +1,12 @@
 'use strict';
 const {
-  Model
+  Model, DataTypes
 } = require('sequelize');
 
 //import bcyrpt to hash the password
 const bcrypt = require('bcrypt');
 
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize) => {
   class User extends Model {
     /**
      * Helper method for defining associations.
@@ -35,22 +35,26 @@ module.exports = (sequelize, DataTypes) => {
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
-      notNull: {
-        msg: 'A first name is required'
-      },
-      notEmpty:{
-        msg: 'Please provie a first name'
+      validate: {
+        notNull: {
+          msg: 'A first name is required'
+        },
+        notEmpty:{
+          msg: 'Please provie a first name'
+        }
       }
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
-      notNull: {
-        msg: 'A last name is required'
-      },
-      notEmpty:{
-        msg: 'Please provie a last name'
-      }
+      validate: {
+        notNull: {
+          msg: 'A last name is required'
+        },
+        notEmpty:{
+          msg: 'Please provie a last name'
+        }
+      }   
   },
     emailAddress: {
       type: DataTypes.STRING,
@@ -66,29 +70,47 @@ module.exports = (sequelize, DataTypes) => {
         validateEmail: function(value){ //adapted from Stackoverflow phonenumber regex validation post
           let regexTest = /^[\w\d]+@[\w]+\.[\w]{2,3}$/m;
           if(!(regexTest.test(value))){
-            throw new Error('email format error!');
+            throw new Error('Invalid email address');
           }
     
         }
       }
-    }, //TODO validation for email using regEx
+    },
+    confirmedPassword: {
+      type: DataTypes.VIRTUAL,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'A password is required'
+          },
+          notEmpty: {
+            msg: 'Please provide a password'
+          },
+          len: {
+            args: [8, 20],
+            msg: 'The password should be between 8 and 20 characters in length'
+          }
+        }
+     
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-      set(val){
-        const hashedPassword = bcrypt.hashSync(val, 10);
-        this.setDataValue('password', hashedPassword);
+      set(val) {
+        if ( val === this.confirmedPassword ) {
+          const hashedPassword = bcrypt.hashSync(val, 10);
+          this.setDataValue('password', hashedPassword);
+        }
       },
       validate: {
         notNull: {
-          msg: 'A password is required'
-        },
-        notEmpty: {
-          msg: 'Please provide a password'
-        },
+          msg: 'Both passwords must match'
+        }
       }
-  } //TODO: confirmed password and hash it
-  }, {
+    }
+ 
+}, 
+{
     sequelize,
     modelName: 'User',
   });
