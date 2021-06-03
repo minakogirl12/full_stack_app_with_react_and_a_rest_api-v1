@@ -20,7 +20,9 @@ import withContext from './Context';
 
 
 const CoursesWithContext = withContext(Courses);
-const CourseDetailWithContext = withContext(CourseDetail)
+const CourseDetailWithContext = withContext(CourseDetail);
+const UserSignUpWithContext = withContext(UserSignUp);
+
 
 class App extends Component{
 
@@ -38,7 +40,7 @@ class App extends Component{
           <Route exact path='/' component={CoursesWithContext} />
           <Route exact path='/courses/create' component={CreateCourse} />
           <Route path='/courses/:id' component={CourseDetailWithContext} />
-          <Route path='/signup' component={UserSignUp} />
+          <Route path='/signup' component={UserSignUpWithContext} />
           <Route path='/notfound' component={NotFound} />
           <Route path='/forbidden' component={Forbidden} />
           <Route path='/error' component={UnhandledError} />

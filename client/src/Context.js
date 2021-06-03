@@ -23,6 +23,10 @@ export class Provider extends Component{
         const value = {
         authenticatedUser,
         data: this.data,
+        actions: {
+          signIn: this.signIn,
+          signOut: this.signOut
+        }
         };
 
         return (
@@ -32,10 +36,28 @@ export class Provider extends Component{
         );
     }
 
+    //Below functions adapted from previous Treehouse project
     //sign in - signIn user and set cookie
+    signIn = async (emailAddress, password) => {
+      const user = await this.data.getUser(emailAddress, password); //returns authenticated users name and username
+      if(user !== null){
+        this.setState(() => {
+          return {
+            authenticatedUser: user,
+          }
+        });
+        //Set cookie
+        Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 1}); //creat cookie that stores the authenticated users data
+        //in above: 1st argument is name of cookie, 2nd argument specifies value to store in cookie, 3rd arugument is for options
+      }
+      return user;
+    };
+
     //sign out - sign out user and delete cookie
-    signIn = () => {};
-    signOut = () => {};
+    signOut = () => {
+      this.setState({authenticatedUser: null}); //removes the name and username properties from state
+    Cookies.remove('authenticatedUser');
+    };
 }
 
 export const Consumer = Context.Consumer;

@@ -39,13 +39,13 @@ export default class Data{
 
       /**
        *  
-       * @param {*} username 
+       * @param {*} emailAddress
        * @param {*} password 
        * @returns authenticated user information
        */
-    async getUser(username, password){
+    async getUser(emailAddress, password){
         //GET route requires authentication
-        const response = await this.api(`/users`, 'GET', null, true, {username, password});
+        const response = await this.api(`/users`, 'GET', null, true, {emailAddress, password});
         if (response.status === 200) {
             return response.json().then(data => data);
         }
