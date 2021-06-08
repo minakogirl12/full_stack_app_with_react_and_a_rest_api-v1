@@ -40,7 +40,7 @@ module.exports = (sequelize) => {
           msg: 'A first name is required'
         },
         notEmpty:{
-          msg: 'Please provie a first name'
+          msg: 'Please provide a first name'
         }
       }
     },
@@ -52,7 +52,7 @@ module.exports = (sequelize) => {
           msg: 'A last name is required'
         },
         notEmpty:{
-          msg: 'Please provie a last name'
+          msg: 'Please provide a last name'
         }
       }   
   },

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom;'
 import Form from './Form';
 
 export default class UserSignIn extends Component{
@@ -20,19 +19,18 @@ export default class UserSignIn extends Component{
                     errors={errors}
                     submit={this.submit}
                     submitText="Sign In"
-                    elements={() => {
+                    elements={() => (
                         <React.Fragment>
-                            <label for="emailAddress">Email Address</label>
+                            <label htmlFor="emailAddress">Email Address</label>
                             <input id="emailAddress" name="emailAddress" type="email" value={emailAddress} onChange={this.change} />
-                            <label for="password">Password</label>
+                            <label htmlFor="password">Password</label>
                             <input id="password" name="password" type="password" value={password} onChange={this.change} />
                         </React.Fragment>
-                    }}
-
-                />
+                    )}/>
             </div>
-        )
+        );
     }
+
     change = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -47,6 +45,8 @@ export default class UserSignIn extends Component{
     submit = () => {
         const {context} = this.props;
         const {emailAddress, password} = this.state;
+        //console.log(emailAddress);
+       // console.log(password);
         context.actions.signIn(emailAddress, password)
         .then(user => {
           if (user === null){

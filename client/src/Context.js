@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Data from './Data';
 import Cookies from 'js-cookie'
 
-const Context = React.createContext();
+export const Context = React.createContext();
 
 /*
 * returns Provider that provides application state and event handlers
@@ -13,7 +13,7 @@ export class Provider extends Component{
         this.data = new Data();
     }
     state = {
-        authenticateUser: Cookies.getJSON('authenticatedUser') || null
+        authenticatedUser: Cookies.getJSON('authenticatedUser') || null
     };
 
     render(){
@@ -61,6 +61,7 @@ export class Provider extends Component{
 }
 
 export const Consumer = Context.Consumer;
+
 
 //Below copied from previous code
 /**

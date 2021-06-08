@@ -26,12 +26,11 @@ export default (props) => {
     return(
         <main>
             <div className="wrap">
-                <h2>Create Course</h2>
                 <ErrorsDisplay errors={errors} />
                 <form onSubmit={handleSubmit}>
                 {elements()}
                     <button className="button" type="submit">{submitText}</button>
-                    <button className="button button-secondary" onclick={handleCancel}>Cancel</button>
+                    <button className="button button-secondary" onClick={handleCancel}>Cancel</button>
                 </form>
             </div>
         </main>

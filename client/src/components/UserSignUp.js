@@ -31,16 +31,16 @@ export default class UserSignUp extends Component {
                         submitText="Sign Up"
                         elements={() => (
                             <React.Fragment>
-                                <label for="firstName">First Name</label>
+                                <label htmlFor="firstName">First Name</label>
                                 <input id="firstName" name="firstName" type="text" value={firstName} onChange={this.change} />
-                                <label for="lastName">Last Name</label>
+                                <label htmlFor="lastName">Last Name</label>
                                 <input id="lastName" name="lastName" type="text" value={lastName} onChange={this.change} />
-                                <label for="emailAddress">Email Address</label>
+                                <label htmlFor="emailAddress">Email Address</label>
                                 <input id="emailAddress" name="emailAddress" type="email" value={emailAddress} onChange={this.change} />
-                                <label for="password">Password</label>
+                                <label htmlFor="password">Password</label>
                                 <input id="password" name="password" type="password" value={password} onChange={this.change} />
-                                <label for="confirmPassword">Confirm Password</label>
-                                <input id="confirmPassword" name="confirmPassword" type="password" value={confirmedPassword} onChange={this.change} />
+                                <label htmlFor="confirmedPassword">Confirm Password</label>
+                                <input id="confirmedPassword" name="confirmedPassword" type="password" value={confirmedPassword} onChange={this.change} />
                             </React.Fragment>
                         )}
                     />
@@ -73,7 +73,7 @@ export default class UserSignUp extends Component {
         //add if else to push error if passwords don't match
         if(password === confirmedPassword){
             //create a new user
-            context.data.creatUser(user)
+            context.data.createUser(user)
             .then(errors => {
                 //if there are errors from creating the user send errors to state
                 //no errors mean user was created successfully

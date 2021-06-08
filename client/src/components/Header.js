@@ -4,10 +4,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default class Header extends React.PureComponent {
+export default class Header extends React.PureComponent  {
+   
+   
     render(){
-        const { context } = this.props;
-        const authUser = context.authenticatedUser;
+    const {context} = this.props;
+    const authUser = context.authenticatedUser;
+
+    console.log(authUser);
+    
         return(
             <header>
             <div className="wrap header--flex">
@@ -15,7 +20,7 @@ export default class Header extends React.PureComponent {
                 <nav>
                 { authUser ? 
                     <ul className="header--signedin">
-                        <span>Welcome, {authUser.name}!</span>
+                        <span>Welcome, {authUser.firstName} {authUser.lastName}! </span>
                         <Link to="/signout">Sign Out</Link>
                    </ul>
                 :

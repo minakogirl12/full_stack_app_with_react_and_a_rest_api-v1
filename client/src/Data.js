@@ -29,7 +29,7 @@ export default class Data{
         //checks if authentication is required
         if(requiresAuth){
           //encode the uesr credentials
-          const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`); //btoa method creates a base-64 ACSII string from a string, separate each property with a semicolon
+          const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`); //btoa method creates a base-64 ACSII string from a string, separate each property with a semicolon
     
           //add Authorization property to headers
           options.headers['Authorization'] = `Basic ${encodedCredentials}`; //set authorization type to Basic followed by the enocdedCredentials
