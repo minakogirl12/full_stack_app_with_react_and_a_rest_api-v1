@@ -28,7 +28,7 @@ export default class Data{
     
         //checks if authentication is required
         if(requiresAuth){
-          //encode the uesr credentials
+          //encode the user credentials
           const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`); //btoa method creates a base-64 ACSII string from a string, separate each property with a semicolon
     
           //add Authorization property to headers
@@ -119,9 +119,10 @@ export default class Data{
      * @param {*} course Object containing course information
      * @returns empty array on successful course creation
      */
-    async createCourse(username, password, course){
-        //PSOT route requires authentication
-        const response = await this.api(`/courses`, 'POST', course, true, {username, password});
+    async createCourse(emailAddress, password, course){
+        //POST route requires authentication
+        
+        const response = await this.api(`/courses`, 'POST', course, true, {emailAddress, password});
         if (response.status === 201) {
             return [];
         }
@@ -140,10 +141,10 @@ export default class Data{
      * @param {*} course 
      * @returns empty array on successful update of course
      */
-    async updateCourse(course, username, password){
+    async updateCourse(course, emailAddress, password){
         //PUT route requires authentication
-        const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {username, password});
-        if (response.status === 201) {
+        const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {emailAddress, password});
+        if (response.status === 204) {
             return [];
         }
         else if (response.status === 400) {
@@ -161,10 +162,10 @@ export default class Data{
      * @param {*} courseId 
      * @returns empty array on successful deletion
      */
-    async deleteCourse(courseId, username, password){
+    async deleteCourse(courseId, emailAddress, password){
          //PUT route requires authentication
-         const response = await this.api(`/courses/${courseId}`, 'DELETE', null, true, {username, password});
-         if (response.status === 201) {
+         const response = await this.api(`/courses/${courseId}`, 'DELETE', null, true, {emailAddress, password});
+         if (response.status === 204) {
              return [];
          }
          else if (response.status === 400) {

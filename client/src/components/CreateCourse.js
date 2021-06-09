@@ -2,33 +2,112 @@ import React, {Component} from 'react';
 import Form from './Form'
 
 export default class CreateCourse extends Component {
-    
+    state = {
+        title: '',
+        description: '',
+        estimatedTime: '',
+        userId: '',
+        materialsNeeded: '',
+        errors: []
+    }
     
     render()
    { 
+    const {context} = this.props;
+    const authUser = context.authenticatedUser;
+
+    const {
+        title,
+        description,
+        estimatedTime,
+        materialsNeeded,
+        errors
+    } = this.state;
        
         return(
             <div className="wrap">
-            <div className="main--flex">
-                        <div>
-                            <label for="courseTitle">Course Title</label>
-                            <input id="courseTitle" name="courseTitle" type="text" value="" />
+            
 
-                            <p>By Joe Smith</p>
+                    <Form 
+                        cancel={this.cancel}
+                        errors={errors}
+                        submit={this.submit}
+                        submitText="Create Course"
+                        elements={() => (
+                            <div className="main--flex">
+                                <div>
+                                    <label htmlFor="title">Course Title</label>
+                                    <input id="title" name="title" type="text" value={title} onChange={this.change}  />
 
-                            <label for="courseDescription">Course Description</label>
-                            <textarea id="courseDescription" name="courseDescription"></textarea>
-                        </div>
-                        <div>
-                            <label for="estimatedTime">Estimated Time</label>
-                            <input id="estimatedTime" name="estimatedTime" type="text" value=""/>
+                                    <p>By {authUser.firstName} {authUser.lastName}</p>
 
-                            <label for="materialsNeeded">Materials Needed</label>
-                            <textarea id="materialsNeeded" name="materialsNeeded"></textarea>
-                        </div>
-                    </div>
-                <Form />
+                                    <label htmlFor="description">Course Description</label>
+                                    <textarea id="dDescription" name="description" value={description} onChange={this.change} ></textarea>
+                                </div>
+                                <div>
+                                    <label htmlFor="estimatedTime">Estimated Time</label>
+                                    <input id="estimatedTime" name="estimatedTime" type="text" value={estimatedTime} onChange={this.change} />
+
+                                    <label htmlFor="materialsNeeded">Materials Needed</label>
+                                    <textarea id="materialsNeeded" name="materialsNeeded" placeholder="Please separate items by comma..." value={materialsNeeded} onChange={this.change} ></textarea>
+                                </div>
+                            </div>
+                        )}
+                    />
+               
             </div>
         )
     }
+
+    //below adapted for previous Treehouse project
+    change = (event) => {
+        //keeps track of all changes to data entered into the form
+        const name = event.target.name;
+        const value = event.target.value;
+    
+        this.setState(() => {
+          return {
+            [name]: value
+          };
+        });
+      }
+
+    submit = () => {
+        //access context and authenticated user information
+        const {context} = this.props;
+        const authUser = context.authenticatedUser;
+        const {
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded
+        } = this.state;
+        const course = {title, description, estimatedTime, materialsNeeded, userId: authUser.id};
+       
+        context.data.createCourse(authUser.emailAddress, authUser.password, course)
+        .then((errors)=>{
+            //if there are errors from creating the user send errors to state
+                //no errors mean user was created successfully
+                if(errors.length){
+                    this.setState({errors});
+                }
+                else{
+                    console.log(`Course created!`);
+                    //TODO redirect to new page with created course?
+                    this.props.history.push('/');
+                }
+
+        })
+        .catch( () => {
+            //handle rejected promises
+            //navigate to the error route using the history object
+            this.props.history.push('/error'); // push to history stack
+        });
+       
+    }
+    //change = () => {}
+    cancel = () => {
+        this.props.history.push('/');
+    }
 }
+

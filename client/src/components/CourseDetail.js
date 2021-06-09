@@ -95,14 +95,28 @@ export default class CourseDetail extends Component{
        if(window.confirm("Are you sure you want to delete this course?"))
        {
            //verify user can delete data
-           if(false){
-                //delete course and redirect main page, pop up course deleted if successful
+           const {context} = this.props;
+           const authUser = context.authenticatedUser;
+           const id = this.props.match.params.id;
+            if(authUser){
+                context.data.deleteCourse(id, authUser.emailAddress, authUser.password)
+                .then(() => {
+                
+                    //redirect to home on successful deletion
+                    this.props.history.push('/');
+        
+                })
+                .catch(() => {
+               //handle rejected promises
+                //navigate to the error route using the history object
+                this.props.history.push('/error'); // push to history stack
+                });
             }
-           //else redirect to forbidden
-           else{
-            this.props.history.push('/forbidden');
-           }
-           console.log('So you want to delete this file!');
+            else{
+                this.props.history.push('/forbidden');
+            }
+           
+          
        }
     }
 }
