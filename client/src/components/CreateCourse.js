@@ -23,6 +23,35 @@ export default class CreateCourse extends Component {
         materialsNeeded,
         errors
     } = this.state;
+
+    //modified fromfrom markdown-js example
+    const decriptionMarkdown =  
+    `
+    Text Formatting:
+
+    *emphasis or italic text* 
+    **bold font**
+
+    > A block quote with 
+    ~strikethrough~
+    a URL: https://reactjs.org.
+    
+    * Lists
+    * [ ] todo
+    * [x] done
+    
+    A table:
+    
+    | a | b |
+    | - | - |
+    `;
+    const materialsMarkdown = ` 
+    Example:
+        * item one
+        * item two
+        * item three
+        * item four
+    `;
        
         return(
             <div className="wrap">
@@ -42,14 +71,14 @@ export default class CreateCourse extends Component {
                                     <p>By {authUser.firstName} {authUser.lastName}</p>
 
                                     <label htmlFor="description">Course Description</label>
-                                    <textarea id="dDescription" name="description" value={description} onChange={this.change} ></textarea>
+                                    <textarea id="dDescription" name="description" placeholder= {decriptionMarkdown} value={description} onChange={this.change} ></textarea>
                                 </div>
                                 <div>
                                     <label htmlFor="estimatedTime">Estimated Time</label>
-                                    <input id="estimatedTime" name="estimatedTime" type="text" value={estimatedTime} onChange={this.change} />
+                                    <input id="estimatedTime" name="estimatedTime" type="text"  value={estimatedTime} onChange={this.change} />
 
                                     <label htmlFor="materialsNeeded">Materials Needed</label>
-                                    <textarea id="materialsNeeded" name="materialsNeeded" placeholder="Please separate items by comma..." value={materialsNeeded} onChange={this.change} ></textarea>
+                                    <textarea id="materialsNeeded" name="materialsNeeded" placeholder={materialsMarkdown}value={materialsNeeded} onChange={this.change} ></textarea>
                                 </div>
                             </div>
                         )}

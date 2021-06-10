@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactMarkdown from 'react-markdown'
 
 export default class CourseDetail extends Component{
     state = {
@@ -17,7 +18,6 @@ export default class CourseDetail extends Component{
         //user information to determine whether or not to render Update Course and Delete Course buttons
         const {context} = this.props;
         const authUser = context.authenticatedUser;
-        console.log(authUser);
 
         //Set place holder text for empty fields
        let estimatedTime = 'TBD';
@@ -26,13 +26,7 @@ export default class CourseDetail extends Component{
         }
 
         //if materials exist split into an array otherwise put TBD
-        let materials = [];
-        if(data.materialsNeeded){
-            materials = data.materialsNeeded.split(',');
-        }
-        else{
-            materials = ['TBD or no materials needed'];
-        }
+   
         
         return(
             <main>
@@ -55,20 +49,21 @@ export default class CourseDetail extends Component{
                         <h4 className="course--name">{data.title}</h4>
                         <p>{`${user.firstName} ${user.lastName}`}</p>
 
-                        <p>{data.description}</p>
+                        <ReactMarkdown>{data.description}</ReactMarkdown>
                     </div>
                     <div>
                         <h3 className="course--detail--title">Estimated Time</h3>
                         <p>{estimatedTime}</p>
 
                         <h3 className="course--detail--title">Materials Needed</h3>
-                        <ul className="course--detail--list">
-                        {materials.map((item, index) => {
-                            return (
-                                <li key={index}>{item}</li>
-                            )
-                         })}
-                        </ul>
+                        <div className="course--detail--list">
+                        {
+                            data.materialsNeeded ?
+                            <ReactMarkdown>{data.materialsNeeded}</ReactMarkdown>
+                            :
+                            <li>TBD or no materials needed</li>
+                        }
+                        </div>
                     </div>
                 </div>
             </form>
