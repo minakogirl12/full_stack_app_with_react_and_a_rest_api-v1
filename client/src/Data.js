@@ -141,7 +141,7 @@ export default class Data{
      * @param {*} course 
      * @returns empty array on successful update of course
      */
-    async updateCourse(course, emailAddress, password){
+    async updateCourse(emailAddress, password, course){
         //PUT route requires authentication
         const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {emailAddress, password});
         if (response.status === 204) {

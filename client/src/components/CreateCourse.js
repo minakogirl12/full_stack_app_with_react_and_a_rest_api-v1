@@ -93,7 +93,6 @@ export default class CreateCourse extends Component {
                 }
                 else{
                     console.log(`Course created!`);
-                    //TODO redirect to new page with created course?
                     this.props.history.push('/');
                 }
 
@@ -105,7 +104,7 @@ export default class CreateCourse extends Component {
         });
        
     }
-    //change = () => {}
+    
     cancel = () => {
         this.props.history.push('/');
     }

@@ -105,9 +105,7 @@ router.post('/courses', authenticateUser, asyncHandler( async(req, res) => {
     res.status(400).json({errors});
   }
   else{
-    console.log(course); 
-    // Add the user to the database
-    //TODO Hash the password
+    //console.log(course); 
 
     //create the course and add it to the database
     const courseCreated = await Course.create(course);

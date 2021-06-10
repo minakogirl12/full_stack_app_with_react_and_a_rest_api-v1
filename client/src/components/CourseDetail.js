@@ -22,8 +22,8 @@ export default class CourseDetail extends Component{
 
         //if materials exist split into an array otherwise put TBD
         let materials = [];
-        if(data.materials){
-            materials = data.materials.split(',');
+        if(data.materialsNeeded){
+            materials = data.materialsNeeded.split(',');
         }
         else{
             materials = ['TBD or no materials needed'];
