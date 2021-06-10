@@ -14,6 +14,11 @@ export default class CourseDetail extends Component{
         const user = this.state.user;
         //console.log(data.length);
 
+        //user information to determine whether or not to render Update Course and Delete Course buttons
+        const {context} = this.props;
+        const authUser = context.authenticatedUser;
+        console.log(authUser);
+
         //Set place holder text for empty fields
        let estimatedTime = 'TBD';
         if(data.estimatedTime){
@@ -32,11 +37,14 @@ export default class CourseDetail extends Component{
         return(
             <main>
             <div className="actions--bar">
-                <div className="wrap">
-                    <a className="button" href={`/courses/${data.id}/update`}>Update Course</a>
-                    <button className="button" onClick={this.delete}>Delete Course</button>
-                    <a className="button button-secondary" href="/">Return to List</a>
-                </div>
+            <div className="wrap">
+                {
+                    authUser ?
+                    this.CourseOptions(authUser, user.id, data.id)
+                    :
+                    <a className="button button-secondary" href="/">Return to List</a>  
+                } 
+             </div>
             </div>
             <div className="wrap">
             <h2>Course Detail</h2>
@@ -69,6 +77,22 @@ export default class CourseDetail extends Component{
         )
 
     }
+
+    CourseOptions = (authUser, userId, courseId) => {
+            if(authUser.id === userId){
+                return(
+                    <div>
+                         <a className="button" href={`/courses/${courseId}/update`}>Update Course</a>
+                        <button className="button" onClick={this.delete}>Delete Course</button>
+                        <a className="button button-secondary" href="/">Return to List</a>
+                    </div>
+                )
+            }
+            else{
+                return(<a className="button button-secondary" href="/">Return to List</a>);
+            }
+        }
+     
 
     course = () => {
         // use the prop to get the courses
