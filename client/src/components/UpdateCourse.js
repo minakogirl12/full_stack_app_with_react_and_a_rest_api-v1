@@ -23,10 +23,10 @@ export default class UpdateCourse extends Component{
             materialsNeeded,
             errors
         } = this.state;
+
         return(
             <div className="wrap">
             
-
             <Form 
                 cancel={this.cancel}
                 errors={errors}
@@ -49,7 +49,7 @@ export default class UpdateCourse extends Component{
 
                             <label htmlFor="materialsNeeded">Materials Needed</label>
                             <textarea id="materialsNeeded" name="materialsNeeded" placeholder="Please separate items by comma..." value={materialsNeeded} onChange={this.change} ></textarea>
-                        </div>
+                        </div>  
                     </div>
                 )}
             />
@@ -66,7 +66,11 @@ export default class UpdateCourse extends Component{
         .then((data) => {
             //if data not exist redirect to notfound route
             //console.log(data);
+            const {context} = this.props;
+            const authUser = context.authenticatedUser;
+            //console.log(data.userId);
 
+            if(authUser.id === data[0].userId){
                 this.setState({
                     user: data[0].user,
                     title: data[0].title,
@@ -74,6 +78,10 @@ export default class UpdateCourse extends Component{
                     estimatedTime: data[0].estimatedTime,
                     materialsNeeded: data[0].materialsNeeded,
                 });
+            }
+            else{
+                this.props.history.push('/forbidden');
+            }
                    
         })
         .catch(err =>
@@ -118,6 +126,7 @@ export default class UpdateCourse extends Component{
                 //no errors mean user was created successfully
                 if(errors.length){
                     this.setState({errors});
+                    //console.log(errors);
                 }
                 else{
                     console.log(`Course update!`);

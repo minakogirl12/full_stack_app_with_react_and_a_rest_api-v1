@@ -120,6 +120,8 @@ router.put('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
   if(course){
     const info = req.body;
     console.log(info);
+
+    
     //check for required information them make changes to database
     if(info.title && info.description){
       course.title = info.title;
@@ -141,11 +143,11 @@ router.put('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
     }
     else
     {
-      res.status(400).json({error: "There is information missing for this course"});
+      res.status(400).json({errors: ["Please verify title and description"]});
     }
   }
   else{
-    res.status(400).json({error: "This course does not exist"});
+    res.status(400).json({errors: ["This course does not exist"]});
   }
 }));
 
@@ -157,7 +159,7 @@ router.delete('/courses/:id', authenticateUser, asyncHandler( async(req, res) =>
       res.status(204).end();
     }
     else{
-      res.status(400).json({error: "This course does not exist"});
+      res.status(400).json({error: ["This course does not exist"]});
     }
     res.send('Deletes a course');
 }));
